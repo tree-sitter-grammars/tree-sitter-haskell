@@ -35,7 +35,7 @@
 
 (comment) @comment
 
-((haddock) @comment.documentation)
+(haddock) @comment.documentation
 
 ; ----------------------------------------------------------------------------
 ; Punctuation
@@ -99,7 +99,6 @@
 ;   (module) @constructor)
 ;   .
 ;   (module))
-
 (module
   (module_id) @module)
 
@@ -132,8 +131,9 @@
 ; Functions and variables
 (decl
   [
-   name: (variable) @function
-   names: (binding_list (variable) @function)
+    name: (variable) @function
+    names: (binding_list
+      (variable) @function)
   ])
 
 (decl/bind
@@ -151,7 +151,7 @@
   .
   (decl
     name: (variable) @variable)
-    match: (_)
+  match: (_)
   (#eq? @_name @variable))
 
 ; but consider a type that involves 'IO' a decl/function
@@ -169,7 +169,7 @@
   .
   (decl
     name: (variable) @function)
-    match: (_)
+  match: (_)
   (#eq? @_name @function))
 
 ((decl/signature) @function
@@ -225,10 +225,10 @@
 
 ; decl/function calls with infix operators
 ([
-    (expression/variable) @function.call
-    (expression/qualified
-      (variable) @function.call)
-  ]
+  (expression/variable) @function.call
+  (expression/qualified
+    (variable) @function.call)
+]
   .
   (operator) @_op
   (#any-of? @_op "$" "<$>" ">>=" "=<<"))
@@ -237,7 +237,8 @@
 ((infix
   [
     (operator)
-    (infix_id (variable))
+    (infix_id
+      (variable))
   ] ; infix or `func`
   .
   [
@@ -250,12 +251,11 @@
   (#any-of? @_op "$" "<$>" "=<<"))
 
 ; decl/function composition, arrows, monadic composition (lhs)
-(
-  [
-    (expression/variable) @function
-    (expression/qualified
-      (variable) @function)
-  ]
+([
+  (expression/variable) @function
+  (expression/qualified
+    (variable) @function)
+]
   .
   (operator) @_op
   (#any-of? @_op "." ">>>" "***" ">=>" "<=<"))
@@ -264,7 +264,8 @@
 ((infix
   [
     (operator)
-    (infix_id (variable))
+    (infix_id
+      (variable))
   ] ; infix or `func`
   .
   [
@@ -427,7 +428,6 @@
 
 ; ----------------------------------------------------------------------------
 ; Fields
-
 (field_name
   (variable) @variable.member)
 
@@ -436,7 +436,6 @@
   .
   (children
     (variable) @variable.member))
-
 
 ; ----------------------------------------------------------------------------
 ; Spell checking
